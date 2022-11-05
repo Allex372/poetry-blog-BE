@@ -1,34 +1,36 @@
-const { passwordsHasher, tokenizer } = require('../helper');
-const { authService } = require('../service');
+const { passwordsHasher, tokenizer } = require("../helper");
+const { authService } = require("../service");
 
 module.exports = {
-    getUserGiveToken: async (req, res, next) => {
-        try {
-            const { email, password } = req.body;
+  getUserGiveToken: async (req, res, next) => {
+    try {
+      const { email, password } = req.body;
 
-            const user = await authService.findUser(email);
+      console.log(req.body);
 
-            await passwordsHasher.compare(password, user.password);
+      const user = await authService.findUser(email);
 
-            const tokens = await authService.createRecord(user._id);
+      await passwordsHasher.compare(password, user.password);
 
-            res.json(tokens);
-        } catch (e) {
-            next(e);
-        }
-    },
+      const tokens = await authService.createRecord(user._id);
 
-    refreshToken: async (req, res, next) => {
-        try {
-            const { _user_id, _id } = req.tokenInfo;
-
-            const tokens = tokenizer();
-
-            await authService.updateById(_id, { ...tokens, _user_id });
-
-            res.json(tokens);
-        } catch (e) {
-            next(e);
-        }
+      res.json(tokens);
+    } catch (e) {
+      next(e);
     }
+  },
+
+  refreshToken: async (req, res, next) => {
+    try {
+      const { _user_id, _id } = req.tokenInfo;
+
+      const tokens = tokenizer();
+
+      await authService.updateById(_id, { ...tokens, _user_id });
+
+      res.json(tokens);
+    } catch (e) {
+      next(e);
+    }
+  },
 };

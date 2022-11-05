@@ -5,6 +5,7 @@ const { constants: { AUTHORIZATION } } = require('../constant');
 const { authService } = require('../service');
 
 const { O_Auth } = require('../dataBase/models');
+const e = require('express');
 
 module.exports = {
     checkAccessTokenMiddleware: async (req, res, next) => {
@@ -12,11 +13,13 @@ module.exports = {
             const access_token = req.get('Authorization');
 
             if (!access_token) {
+                res.status(401).json(401)
                 throw new Error('Token is required');
             }
 
             jwt.verify(access_token, JWT_ACCESS, (err) => {
                 if (err) {
+                    res.status(401).json(401)
                     throw new Error('Not valid token VERIFY');
                 }
             });
@@ -37,7 +40,8 @@ module.exports = {
 
     checkRefreshTokenMiddleware: async (req, res, next) => {
         try {
-            const refresh_token = req.get(AUTHORIZATION);
+            const refresh_token = req.body.headers.Authorization;
+            // const refresh_token = req.get(AUTHORIZATION);
 
             if (!refresh_token) {
                 throw new ErrorHendler(errorMessages.TOKEN_REQUIRED.status, errorMessages.TOKEN_REQUIRED.customCode);

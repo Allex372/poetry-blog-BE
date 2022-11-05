@@ -9,71 +9,52 @@ module.exports = {
     try {
       const posts = await postsService.findAllPosts();
 
-      res.json(posts);
+      const responce = {
+        data: posts,
+        total: posts.length,
+      };
+
+      res.json(responce);
     } catch (e) {
       next(e);
     }
   },
 
-  // getSingleUser: async (req, res) => {
-  //     try {
-  //         const userId = req.params.id;
-  //
-  //         const user = await userService.findUserById(userId);
-  //
-  //         res.json(user);
-  //     } catch (e) {
-  //         res.json(e.message);
-  //     }
-  // },
+  getAllPostsStatistic: async (req, res, next) => {
+    try {
+      const posts = await postsService.findAllPostsAndSort();
+
+      const responce = {
+        data: posts,
+      };
+
+      res.json(responce);
+    } catch (e) {
+      next(e);
+    }
+  },
 
   createPost: async (req, res, next) => {
     try {
-      const { body, files: { picture } } = req;
+      const {
+        body,
+        files: { picture },
+      } = req;
 
       const post = await postsService.createPost(body);
 
       if (picture) {
-
-        // console.log(picture);
-        // eslint-disable-next-line max-len
-        const { finalFilePath, uploadPath, fileDir } = filePathBuider.fileBuilderPath(picture.name, 'photos', post._id);
+        const { finalFilePath, uploadPath, fileDir } =
+          filePathBuider.fileBuilderPath(picture.name, "photos", post._id);
 
         await fs.mkdir(fileDir, { recursive: true });
 
         await picture.mv(finalFilePath);
 
         await postsService.updatePost(post._id, { picture: uploadPath });
-    }
-      // for (const photo of photos) {
-      //   // const { finalFilePath, uploadPath, fileDir } =
-      //   //   filePathBuider.fileBuilderPath(
-      //   //     photo.name,
-      //   //     "photos",
-      //   //     createdProduct._id
-      //   //   );
+      }
 
-      //   // await fs.mkdir(fileDir, { recursive: true });
-
-      //   // await photo.mv(finalFilePath);
-      //   const PathWithoutStatic = path.join("post", `${post._id}`, "photos");
-      //   const photoDir = path.join(process.cwd(), "static", PathWithoutStatic);
-      //   const fileExtension = photo.name.split(".").pop();
-      //   const photoName = `${uuid()}.${fileExtension}`;
-      //   const finalPhotoPath = path.join(photoDir, photoName);
-
-      //   await fs.mkdir(photoDir, { recursive: true });
-
-      //   await photo.mv(finalPhotoPath);
-
-      //   await productService.updatePost(post._id, {
-      //     pic: path.join(photoDir, photoName),
-      //   });
-      // }
-
-      // await emailService.sendMail(email, emailActions.WELCOME, {userName: name});
-
-      res.sendStatus(201);
+      res.sendStatus(200);
     } catch (e) {
       next(e);
     }

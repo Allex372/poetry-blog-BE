@@ -7,4 +7,4 @@ const OAuthScheme = new Schema({
     _user_id: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 
-module.exports = model(constants.O_Auth, OAuthScheme);
+module.exports = model('O_Auths', OAuthScheme);

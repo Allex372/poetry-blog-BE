@@ -57,18 +57,5 @@ module.exports = {
     WRONG_EMAIL_TEMPLATE: {
         status: 401,
         customCode: 4018
-    },
-
-    NOT_VALID_FILE: {
-        status: 401,
-        customCode: 4019
-    },
-    TOO_MATCH_PHOTOS: {
-        status: 401,
-        customCode: 4020
-    },
-    ACCESS_DENIED: {
-        status: 403,
-        customCode: 4001
-    },
+    }
 };

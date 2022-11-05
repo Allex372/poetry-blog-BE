@@ -1,13 +1,26 @@
-const router = require('express').Router();
-const { postsController } = require('../controller');
-const { userMiddleware, authMiddleware: { checkAccessTokenMiddleware }, checkRoleMiddleware, fileMiddleware } = require('../middleware');
+const router = require("express").Router();
+const { postsController } = require("../controller");
+const {
+  userMiddleware,
+  authMiddleware: { checkAccessTokenMiddleware },
+  checkRoleMiddleware,
+  fileMiddleware,
+} = require("../middleware");
 
-router.get('/', checkAccessTokenMiddleware, postsController.getAllPosts);
+router.get("/", checkAccessTokenMiddleware, postsController.getAllPosts);
 
-router.post('/',
-    // checkAccessTokenMiddleware,
-    fileMiddleware.checkFile,
-    postsController.createPost)
+router.get(
+  "/activity",
+  checkAccessTokenMiddleware,
+  postsController.getAllPostsStatistic
+);
+
+router.post(
+  "/",
+  // checkAccessTokenMiddleware,
+  fileMiddleware.checkFile,
+  postsController.createPost
+);
 
 // router.get('/:id', userController.getSingleUser);
 //

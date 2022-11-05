@@ -4,7 +4,14 @@ const { authController } = require("../controller");
 
 const { authMiddleware, checkRoleMiddleware } = require("../middleware");
 
-router.post("/", authController.getUserGiveToken);
+router.post(
+  "/",
+  (req, res, next) => {
+    console.log(req.body);
+    next();
+  },
+  authController.getUserGiveToken
+);
 
 router.post(
   "/refresh",
