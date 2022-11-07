@@ -34,6 +34,22 @@ module.exports = {
     }
   },
 
+  getAllPostsOfCurrentUser: async (req, res, next) => {
+    try {
+      const { params: { id } } = req;
+
+      const posts = await postsService.findAllPostsOfCurrentUser(id);
+
+      const responce = {
+        data: posts,
+      };
+
+      res.json(responce);
+    } catch (e) {
+      next(e);
+    }
+  },
+
   createPost: async (req, res, next) => {
     try {
       const {

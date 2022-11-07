@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { config } = require('../config');
 
 module.exports = () => {
-    const access_token = jwt.sign({}, config.JWT_ACCESS, { expiresIn: '20s' });
+    const access_token = jwt.sign({}, config.JWT_ACCESS, { expiresIn: '2d' });
     const refresh_token = jwt.sign({}, config.JWT_REFRESH, { expiresIn: '30d' });
 
     return {

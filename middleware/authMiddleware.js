@@ -40,8 +40,8 @@ module.exports = {
 
     checkRefreshTokenMiddleware: async (req, res, next) => {
         try {
-            const refresh_token = req.body.headers.Authorization;
-            // const refresh_token = req.get(AUTHORIZATION);
+            // const refresh_token = req.body.headers.Authorization;
+            const refresh_token = req.get(AUTHORIZATION);
 
             if (!refresh_token) {
                 throw new ErrorHendler(errorMessages.TOKEN_REQUIRED.status, errorMessages.TOKEN_REQUIRED.customCode);

@@ -7,7 +7,21 @@ const {
   fileMiddleware,
 } = require("../middleware");
 
-router.get("/", checkAccessTokenMiddleware, postsController.getAllPosts);
+router.get(
+  "/",
+  //  checkAccessTokenMiddleware,
+  postsController.getAllPosts
+);
+
+router.get(
+  "/:id",
+  (req, res, next) => {
+    console.log(req);
+    next();
+  },
+  //  checkAccessTokenMiddleware,
+  postsController.getAllPostsOfCurrentUser
+);
 
 router.get(
   "/activity",
@@ -17,6 +31,10 @@ router.get(
 
 router.post(
   "/",
+  (req, res, next) => {
+    console.log(req.body);
+    next();
+  },
   // checkAccessTokenMiddleware,
   fileMiddleware.checkFile,
   postsController.createPost
