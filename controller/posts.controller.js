@@ -22,7 +22,11 @@ module.exports = {
 
   getAllPostsStatistic: async (req, res, next) => {
     try {
-      const posts = await postsService.findAllPostsAndSort();
+      const {
+        params: { id },
+      } = req;
+
+      const posts = await postsService.findAllPostsAndSort(id);
 
       const responce = {
         data: posts,
@@ -36,7 +40,9 @@ module.exports = {
 
   getAllPostsOfCurrentUser: async (req, res, next) => {
     try {
-      const { params: { id } } = req;
+      const {
+        params: { id },
+      } = req;
 
       const posts = await postsService.findAllPostsOfCurrentUser(id);
 
@@ -76,19 +82,15 @@ module.exports = {
     }
   },
 
-  deleteSingleUser: async (req, res) => {
+  deletePostById: async (req, res) => {
     try {
-      const userId = req.params.id;
-      //
-      // const user = await userService.findUserById(userId);
-      //
-      // const { email, name } = user;
+      const {
+        params: { id },
+      } = req;
 
-      // await userService.deleteSingleUser(userId);
-      //
-      // await emailService.sendMail(email, emailActions.USER_DELETED, { userName: name });
+      await postsService.deletePostById(id);
 
-      res.json(`${name} was deleted`);
+      res.json(200);
     } catch (e) {
       res.json(e.message);
     }

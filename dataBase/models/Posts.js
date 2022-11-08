@@ -6,6 +6,7 @@ const postScheme = new Schema(
     userID: { type: String, required: true},
     text: { type: String, required: true },
     picture: { type: String },
+    userName: { type: String, required: true },
   },
   { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } }
 );

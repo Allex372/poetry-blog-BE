@@ -14,32 +14,29 @@ router.get(
 );
 
 router.get(
+  "/activity/:id",
+  // checkAccessTokenMiddleware,
+  postsController.getAllPostsStatistic
+);
+
+router.get(
   "/:id",
-  (req, res, next) => {
-    console.log(req);
-    next();
-  },
   //  checkAccessTokenMiddleware,
   postsController.getAllPostsOfCurrentUser
 );
 
-router.get(
-  "/activity",
-  checkAccessTokenMiddleware,
-  postsController.getAllPostsStatistic
-);
-
 router.post(
   "/",
-  (req, res, next) => {
-    console.log(req.body);
-    next();
-  },
   // checkAccessTokenMiddleware,
   fileMiddleware.checkFile,
   postsController.createPost
 );
 
+router.delete(
+  "/:id",
+  //  checkAccessTokenMiddleware,
+  postsController.deletePostById
+);
 // router.get('/:id', userController.getSingleUser);
 //
 // router.delete('/:id', userController.deleteSingleUser);
