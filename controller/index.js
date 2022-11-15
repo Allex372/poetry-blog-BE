@@ -5,4 +5,5 @@ module.exports = {
   registrationController: require("./registration.controller"),
   refresh_tokenController: require("./refresh_token.controller"),
   accountController: require("./account.controller"),
+  commentsController: require("./comments.controller"),
 };

@@ -26,6 +26,7 @@ module.exports = {
         params: { id },
       } = req;
 
+      console.log(id);
       const posts = await postsService.findAllPostsAndSort(id);
 
       const responce = {

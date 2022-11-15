@@ -3,7 +3,7 @@ const { tokenizer } = require("../helper");
 
 const findByParams = (filterObject) => O_Auth.findOne(filterObject);
 
-const findUser = (email) => User.findOne({ email });
+const findUser = (email) => User.findOne({ email: email });
 
 const createRecord = async (userId) => {
   const tokens = tokenizer();

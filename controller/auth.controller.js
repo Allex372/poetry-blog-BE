@@ -6,8 +6,6 @@ module.exports = {
     try {
       const { email, password } = req.body;
 
-      console.log(req.body);
-
       const user = await authService.findUser(email);
 
       await passwordsHasher.compare(password, user.password);
