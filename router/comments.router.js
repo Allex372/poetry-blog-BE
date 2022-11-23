@@ -25,4 +25,10 @@ router.get(
   commentsController.getCommentsByPostId
 );
 
+router.delete(
+  "/:id",
+  //  checkAccessTokenMiddleware,
+  commentsController.deleteCommentById
+);
+
 module.exports = router;

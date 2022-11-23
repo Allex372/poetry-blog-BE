@@ -13,6 +13,13 @@ router.get(
   postsController.getAllPosts
 );
 
+router.post(
+  "/",
+  // checkAccessTokenMiddleware,
+  fileMiddleware.checkFile,
+  postsController.createPost
+);
+
 router.get(
   "/activity/:id",
   // checkAccessTokenMiddleware,
@@ -23,13 +30,6 @@ router.get(
   "/:id",
   //  checkAccessTokenMiddleware,
   postsController.getAllPostsOfCurrentUser
-);
-
-router.post(
-  "/",
-  // checkAccessTokenMiddleware,
-  fileMiddleware.checkFile,
-  postsController.createPost
 );
 
 router.delete(

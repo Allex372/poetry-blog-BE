@@ -12,6 +12,8 @@ router.get("/", checkAccessTokenMiddleware, userController.getAllUsers);
 
 router.get("/:id", userController.getSingleUser);
 
+router.put("/:id", userController.updateSingleUser);
+
 router.delete("/:id", userController.deleteSingleUser);
 
 router.post("/product");

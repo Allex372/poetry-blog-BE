@@ -13,7 +13,7 @@ module.exports = {
 
   //   findPostById: (id) => Post.findById(id),
 
-  //   deletePostById: (id) => Post.findByIdAndDelete({ _id: id }),
+  findCommentAndDelete: (id) => Comment.findByIdAndDelete({ _id: id }),
 
   createComment: (data) => Comment.create(data),
 

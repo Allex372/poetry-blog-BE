@@ -27,8 +27,33 @@ module.exports = {
     }
   },
 
+  updateSingleUser: async (req, res) => {
+    try {
+      const userId = req.params.id;
+
+      const data = req.body;
+
+      console.log(data);
+
+      if (data.password) {
+        console.log(data.password);
+        const hashPassword = await passwordsHasher.hash(data.password);
+        await userService.updateUser(userId, {
+          ...req.body,
+          password: hashPassword,
+        });
+        res.sendStatus(200);
+      } else {
+        await userService.updateUser(userId, data);
+
+        res.sendStatus(200);
+      }
+    } catch (e) {
+      res.json(e.message);
+    }
+  },
+
   createUser: async (req, res, next) => {
-    console.log(req.body);
     try {
       const {
         body: { password, email, name },

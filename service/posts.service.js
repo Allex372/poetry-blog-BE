@@ -56,7 +56,54 @@ module.exports = {
       { $group: { _id: { $month: "$createdAt" }, count: { $sum: 1 } } },
     ]),
 
-  findAllPostsOfCurrentUser: (userID) => Post.find({ userID: userID }),
+  findAllPostsOfCurrentUser: (userID) =>
+    Post.aggregate([
+      { $match: { userID: Types.ObjectId(userID) } },
+      {
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "postID",
+          as: "comments",
+        },
+      },
+      {
+        $unwind: {
+          path: "$comments",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "comments.userID",
+          foreignField: "_id",
+          as: "comments.user",
+        },
+      },
+      {
+        $unwind: {
+          path: "$comments.user",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $group: {
+          _id: "$_id",
+          title: { $first: "$title" },
+          text: { $first: "$text" },
+          picture: { $first: "$picture" },
+          userID: { $first: "$userID" },
+          createdAt: { $first: "$createdAt" },
+          updatedAt: { $first: "$updatedAt" },
+          userName: { $first: "$userName" },
+          comments: {
+            $push: "$comments",
+          },
+        },
+      },
+      { $sort: { createdAt: -1 } },
+    ]),
 
   findPostById: (id) => Post.findById(id),
 

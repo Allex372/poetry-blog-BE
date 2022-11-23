@@ -63,4 +63,18 @@ module.exports = {
       res.json(e.message);
     }
   },
+
+  deleteCommentById: async (req, res) => {
+    try {
+      const {
+        params: { id },
+      } = req;
+
+      await commentsService.findCommentAndDelete(id);
+
+      res.sendStatus(200);
+    } catch (e) {
+      res.json(e.message);
+    }
+  },
 };
