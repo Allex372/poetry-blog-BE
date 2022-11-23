@@ -61,20 +61,20 @@ module.exports = {
     try {
       const {
         body,
-        files: { picture },
+        // files: { picture },
       } = req;
 
       const post = await postsService.createPost(body);
 
-      if (picture) {
-        const { finalFilePath, uploadPath, fileDir } =
-          filePathBuider.fileBuilderPath(picture.name, "photos", post._id);
+      if (body.picture) {
+        // const { finalFilePath, uploadPath, fileDir } =
+        //   filePathBuider.fileBuilderPath(picture.name, "photos", post._id);
 
-        await fs.mkdir(fileDir, { recursive: true });
+        // await fs.mkdir(fileDir, { recursive: true });
 
-        await picture.mv(finalFilePath);
+        // await picture.mv(finalFilePath);
 
-        await postsService.updatePost(post._id, { picture: uploadPath });
+        await postsService.updatePost(post._id, { picture: body.picture });
       }
 
       res.sendStatus(200);

@@ -16,7 +16,7 @@ router.get(
 router.post(
   "/",
   // checkAccessTokenMiddleware,
-  fileMiddleware.checkFile,
+  // fileMiddleware.checkFile,
   postsController.createPost
 );
 

@@ -33,11 +33,11 @@ app.use("/", apiRouter);
 
 // eslint-disable-next-line no-unused-vars
 app.use("*", (err, req, res, next) => {
-    res.status(err.status || 500).json({
-      customCode: err.customCode || 0,
-      message: err.message || "",
-    });
+  res.status(err.status || 500).json({
+    customCode: err.customCode || 0,
+    message: err.message || "",
   });
+});
 
 app.listen(config.PORT, () => {
   console.log(`App ${config.PORT} in progress`);
@@ -45,13 +45,26 @@ app.listen(config.PORT, () => {
 });
 
 function _conectDB() {
-  mongoose.connect(config.MONGO_URL, {
+  const connectionParams = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  });
+  };
+  try {
+    mongoose.connect(config.MONGO_URL, connectionParams);
+    console.log("Database connected succesfully");
+  } catch (error) {
+    const { connection } = mongoose;
+    connection.on("error", (error) => {
+      console.log(error);
+    });
+  }
+  // mongoose.connect(config.MONGO_URL, {
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true,
+  // });
 
-  const { connection } = mongoose;
-  connection.on("error", (error) => {
-    console.log(error);
-  });
+  // const { connection } = mongoose;
+  // connection.on("error", (error) => {
+  //   console.log(error);
+  // });
 }
