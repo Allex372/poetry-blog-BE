@@ -17,11 +17,11 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.12",
     "nodemailer": "^6.8.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "dotenv": "^10.0.0"
   },
   "devDependencies": {
     "@types/express-fileupload": "^1.4.1",
-    "dotenv": "^10.0.0",
     "nodemon": "^2.0.20"
   }
 }
