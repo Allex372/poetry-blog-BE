@@ -12,7 +12,7 @@ module.exports = {
 
       const tokens = await authService.createRecord(user._id);
 
-      res.json(tokens);
+      res.json({ data: tokens });
     } catch (e) {
       next(e);
     }
