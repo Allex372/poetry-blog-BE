@@ -25,7 +25,11 @@ app.use(express.static(path.join(process.cwd(), "static")));
 
 app.use(
   cors({
-    origin: "*",
+    origin: [
+      "http://localhost:3000",
+      "https://https://deploy-preview-55--beamish-gecko-9f736e.netlify.app/",
+    ],
+    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
   })
 );
 
