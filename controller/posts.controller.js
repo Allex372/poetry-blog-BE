@@ -98,7 +98,7 @@ module.exports = {
 
       const postToDelete = await postsService.findPostById(id);
 
-      cloudinary.v2.uploader.destroy(
+      await cloudinary.v2.uploader.destroy(
         postToDelete.photoPublicId,
         async (err, result) => {
           if (err) throw err;
