@@ -33,7 +33,7 @@ app.use(express.static(path.join(process.cwd(), "static")));
 //   })
 // );
 
-app.use(cors());
+app.use(cors());ф
 
 app.use("/", apiRouter);
 
