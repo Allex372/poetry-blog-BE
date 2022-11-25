@@ -42,6 +42,7 @@ module.exports = {
           createdAt: { $first: "$createdAt" },
           updatedAt: { $first: "$updatedAt" },
           userName: { $first: "$userName" },
+          photoPublicId: { $first: "$photoPublicId" },
           comments: {
             $push: "$comments",
           },
