@@ -4,6 +4,9 @@ const { errorCodes, emailActions } = require("../constant");
 const { filePathBuider } = require("../helper");
 const { errorMessages } = require("../error");
 const cloudinary = require("cloudinary");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 module.exports = {
   getAllPosts: async (req, res, next) => {
@@ -90,21 +93,21 @@ module.exports = {
         params: { id },
       } = req;
 
-      // cloudinary.config({
-      //   cloud_name: process.env.CLOUD_NAME,
-      //   api_key: process.env.CLOUD_API_KEY,
-      //   api_secret: process.env.CLOUD_API_SECRET,
-      // });
+      cloudinary.config({
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.CLOUD_API_KEY,
+        api_secret: process.env.CLOUD_API_SECRET,
+      });
 
-      // const postToDelete = await postsService.findPostById(id);
+      const postToDelete = await postsService.findPostById(id);
 
-      // await cloudinary.v2.uploader.destroy(
-      //   postToDelete?.photoPublicId,
-      //   async (err, result) => {
-      //     if (err) throw err;
-      //     res.json("Deleted");
-      //   }
-      // );
+      cloudinary.v2.uploader.destroy(
+        postToDelete?.photoPublicId,
+        async (err, result) => {
+          if (err) throw err;
+          res.json("Deleted");
+        }
+      );
 
       await postsService.deletePostById(id);
 
