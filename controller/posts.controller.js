@@ -3,6 +3,7 @@ const { postsService } = require("../service");
 const { errorCodes, emailActions } = require("../constant");
 const { filePathBuider } = require("../helper");
 const { errorMessages } = require("../error");
+const cloudinary = require("cloudinary");
 
 module.exports = {
   getAllPosts: async (req, res, next) => {
@@ -88,6 +89,22 @@ module.exports = {
       const {
         params: { id },
       } = req;
+
+      cloudinary.config({
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.CLOUD_API_KEY,
+        api_secret: process.env.CLOUD_API_SECRET,
+      });
+
+      const postToDelete = await postsService.findPostById(id);
+
+      cloudinary.v2.uploader.destroy(
+        postToDelete.photoPublicId,
+        async (err, result) => {
+          if (err) throw err;
+          res.json("Deleted");
+        }
+      );
 
       await postsService.deletePostById(id);
 
