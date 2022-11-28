@@ -3,6 +3,7 @@ const { userService, emailService } = require("../service");
 const { errorCodes, emailActions } = require("../constant");
 const { passwordsHasher, filePathBuider } = require("../helper");
 const { errorMessages } = require("../error");
+const cloudinary = require("cloudinary");
 const dotenv = require("dotenv");
 
 dotenv.config();
