@@ -1,5 +1,5 @@
 const fs = require("fs-extra").promises;
-const { userService, emailService } = require("../service");
+const { userService, emailService, postsService } = require("../service");
 const { errorCodes, emailActions } = require("../constant");
 const { passwordsHasher, filePathBuider } = require("../helper");
 const { errorMessages } = require("../error");
@@ -50,8 +50,15 @@ module.exports = {
         });
       }
 
+      if (data.name) {
+        const allPostsOfCurrentUser =
+          postsService.findAllPostsOfCurrentUser(userId);
+        await allPostsOfCurrentUser.map((post) => {
+          postsService.updatePost(post._id, { userName: data.name });
+        });
+      }
+
       if (data.password) {
-        console.log(data.password);
         const hashPassword = await passwordsHasher.hash(data.password);
         await userService.updateUser(userId, {
           ...req.body,
