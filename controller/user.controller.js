@@ -3,6 +3,9 @@ const { userService, emailService } = require("../service");
 const { errorCodes, emailActions } = require("../constant");
 const { passwordsHasher, filePathBuider } = require("../helper");
 const { errorMessages } = require("../error");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 module.exports = {
   getAllUsers: async (req, res, next) => {
@@ -33,7 +36,19 @@ module.exports = {
 
       const data = req.body;
 
-      console.log(data);
+      cloudinary.config({
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.CLOUD_API_KEY,
+        api_secret: process.env.CLOUD_API_SECRET,
+      });
+
+      cloudinary.v2.uploader.destroy(
+        data.oldAvatar,
+        async (err, result) => {
+          if (err) throw err;
+          res.json("Deleted");
+        }
+      );
 
       if (data.password) {
         console.log(data.password);
