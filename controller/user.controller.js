@@ -52,10 +52,16 @@ module.exports = {
 
       if (data.name) {
         const allPostsOfCurrentUser =
-          postsService.findAllPostsOfCurrentUser(userId);
-        await allPostsOfCurrentUser.map((post) => {
-          postsService.updatePost(post._id, { userName: data.name });
+          await postsService.findAllPostsOfCurrentUser(userId);
+
+        const promiseArray = [];
+        allPostsOfCurrentUser.map((post) => {
+          promiseArray.push(
+            postsService.updatePost({ _id: post._id }, { userName: data.name })
+          );
         });
+        await Promise.all(promiseArray);
+        res.json(allPostsOfCurrentUser);
       }
 
       if (data.password) {

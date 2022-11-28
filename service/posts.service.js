@@ -113,4 +113,5 @@ module.exports = {
   createPost: (data) => Post.create(data),
 
   updatePost: (id, data) => Post.updateOne({ _id: id }, { $set: data }),
+
 };
