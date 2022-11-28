@@ -21,6 +21,20 @@ module.exports = {
       {
         $lookup: {
           from: "users",
+          localField: "userID",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: {
+          path: "$user",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
           localField: "comments.userID",
           foreignField: "_id",
           as: "comments.user",
@@ -46,6 +60,7 @@ module.exports = {
           comments: {
             $push: "$comments",
           },
+          user: { $first: "$user" },
         },
       },
       { $sort: { createdAt: -1 } },
@@ -60,6 +75,20 @@ module.exports = {
   findAllPostsOfCurrentUser: (userID) =>
     Post.aggregate([
       { $match: { userID: Types.ObjectId(userID) } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userID",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: {
+          path: "$user",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
       {
         $lookup: {
           from: "comments",
@@ -101,6 +130,7 @@ module.exports = {
           comments: {
             $push: "$comments",
           },
+          user: { $first: "$user" },
         },
       },
       { $sort: { createdAt: -1 } },
@@ -113,5 +143,4 @@ module.exports = {
   createPost: (data) => Post.create(data),
 
   updatePost: (id, data) => Post.updateOne({ _id: id }, { $set: data }),
-
 };
