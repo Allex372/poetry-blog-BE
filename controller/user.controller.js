@@ -43,13 +43,12 @@ module.exports = {
         api_secret: process.env.CLOUD_API_SECRET,
       });
 
-      cloudinary.v2.uploader.destroy(
-        data.oldAvatar,
-        async (err, result) => {
+      if (data.oldAvatar) {
+        cloudinary.v2.uploader.destroy(data.oldAvatar, async (err, result) => {
           if (err) throw err;
           res.json("Deleted");
-        }
-      );
+        });
+      }
 
       if (data.password) {
         console.log(data.password);
