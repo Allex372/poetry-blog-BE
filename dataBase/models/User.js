@@ -6,6 +6,8 @@ const userScheme = new Schema(
     password: { type: String, required: true },
     role: { type: String, default: "admin" },
     name: { type: String, required: true },
+    avatar: { type: String },
+    avatarPublicId: { type: String },
   },
   { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } }
 );
